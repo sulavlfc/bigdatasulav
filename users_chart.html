@@ -1,0 +1,131 @@
+<html>
+<head>
+    <title>Hello Bubble Chart</title>
+    <meta charset="utf-8">
+
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+ 	<script src="https://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/d3/d3.min.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/cafej/src/extarray.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/cafej/src/misc.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/cafej/src/micro-observer.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/microplugin/src/microplugin.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/bubble-chart.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/central-click/central-click.js"></script>
+    <script src="https://phuonghuynh.github.io/js/bower_components/bubble-chart/src/plugins/lines/lines.js"></script>
+  
+    <style>
+        .bubbleChart {
+        min-width: 100px;
+        max-width: 700px;
+        height: 700px;
+        margin: 0 auto;
+        }
+        .bubbleChart svg{
+       
+        }
+    </style>
+</head>
+<body>
+<div class="bubbleChart"/>
+<h1 style="background: #ffffff" align="center">Popular Locaton and Count</h1>
+
+<script>
+    $(document).ready(function () {
+  var bubbleChart = new d3.svg.BubbleChart({
+    supportResponsive: true,
+    //container: => use @default
+    size: 600,
+    //viewBoxSize: => use @default
+    innerRadius: 600 / 3.5,
+    //outerRadius: => use @default
+    radiusMin: 50,
+    //radiusMax: use @default
+    //intersectDelta: use @default
+    //intersectInc: use @default
+    //circleColor: use @default
+    data: {
+      items: [
+        {"text":"chicago","count":6656},
+        {"text":"Illinois","count":1730},
+        {"text":"Indiana","count":1507},
+        {"text":"Michigan","count":1507},
+        {"text":"Canada","count":313},
+        {"text":"Oal Lawn","count":97},
+        {"text":"Evanston","count":100}
+        
+      ],
+      eval: function (item) {return item.count;},
+      classed: function (item) {return item.text.split(" ").join("");}
+    },
+    plugins: [
+      {
+        name: "central-click",
+        options: {
+          style: {
+            "font-size": "12px",
+            "font-style": "italic",
+            "font-family": "Source Sans Pro, sans-serif",
+            //"font-weight": "700",
+            "text-anchor": "middle",
+            "fill": "white"
+          },
+          attr: {dy: "65px"},
+          centralClick: function() {
+            alert("Here is more details!!");
+          }
+        }
+      },
+      {
+        name: "lines",
+        options: {
+          format: [
+            {// Line #0
+              textField: "count",
+              classed: {count: true},
+              style: {
+                "font-size": "28px",
+                "font-family": "Source Sans Pro, sans-serif",
+                "text-anchor": "middle",
+                fill: "white"
+              },
+              attr: {
+                dy: "0px",
+                x: function (d) {return d.cx;},
+                y: function (d) {return d.cy;}
+              }
+            },
+            {// Line #1
+              textField: "text",
+              classed: {text: true},
+              style: {
+                "font-size": "14px",
+                "font-family": "Source Sans Pro, sans-serif",
+                "text-anchor": "middle",
+                fill: "white"
+              },
+              attr: {
+                dy: "20px",
+                x: function (d) {return d.cx;},
+                y: function (d) {return d.cy;}
+              }
+            }
+          ],
+          centralFormat: [
+            {// Line #0
+              style: {"font-size": "50px"},
+              attr: {}
+            },
+            {// Line #1
+              style: {"font-size": "30px"},
+              attr: {dy: "40px"}
+            }
+          ]
+        }
+      }]
+  });
+});
+</script>
+</body>
+</html>
